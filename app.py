@@ -1,3 +1,4 @@
+"""Aplicativo de verificação de tensões"""
 import streamlit as st 
 import pandas as pd 
 import numpy as np
@@ -8,23 +9,15 @@ x = [1.98, 3.96, 5.94, 7.92, 9.90, 11.80, 13.86, 15.84, 17.82, 19.8]
 e_p = [0.38] * 10 
 sigma_b = []
 sigma_t = []
-a_c = []
-i_c = []
-w_t = []
-w_c = []
 
 # Pedindo para o usuário inserir elementos
-num_ac = st.number_input("a_c:")
-a_c.append(num_ac)
+a_c = st.number_input("a_c:")
 
-num_ic = st.number_input("i_c:")
-i_c.append(num_ic)
+i_c = st.number_input("i_c:")
 
-num_wt = st.number_input("w_t:")
-w_t.append(num_wt)
+w_t = st.number_input("w_t:")
 
-num_wc = st.number_input("w_c:")
-w_c.append(num_wc)
+w_c = st.number_input("w_c:")
 
 tensao = random.uniform(10000, 15000)
 
