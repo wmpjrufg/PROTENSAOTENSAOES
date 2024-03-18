@@ -9,5 +9,9 @@ x = [1.98, 3.96, 5.94, 7.92, 9.90, 11.80, 13.86, 15.84, 17.82, 19.8]
 
 chart_data = pd.DataFrame({'sigma t': sigma_t,'sigma b': sigma_b, 'm': x})
 
-st.title("GRAFICO")
-st.line_chart(chart_data, x="m")
+st.title("GRAFICOS")
+st.subheader("Topo")
+st.line_chart(chart_data.set_index('m')['sigma t'])
+
+st.subheader("Baixo")
+st.line_chart(chart_data.set_index('m')['sigma b'])
