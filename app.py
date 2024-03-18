@@ -3,11 +3,60 @@ import pandas as pd
 import numpy as np
 import random
 
-sigma_b = [random.uniform(10000, 15000) for _ in range(10)]
-sigma_t = [random.uniform(10000, 15000) for _ in range(10)]
-x = [1.98, 3.96, 5.94, 7.92, 9.90, 11.80, 13.86, 15.84, 17.82, 19.8]
 
+x = [1.98, 3.96, 5.94, 7.92, 9.90, 11.80, 13.86, 15.84, 17.82, 19.8]
+e_p = [0.38] * 10 
+sigma_b = []
+sigma_t = []
+a_c = []
+i_c = []
+w_t = []
+w_c = []
+
+# Pedindo para o usuário inserir elementos
+num_ac = st.number_input("a_c:")
+a_c.append(num_ac)
+
+num_ic = st.number_input("i_c:")
+i_c.append(num_ic)
+
+num_wt = st.number_input("w_t:")
+w_t.append(num_wt)
+
+num_wc = st.number_input("w_c:")
+w_c.append(num_wc)
+
+tensao = random.uniform(10000, 15000)
+
+for id, ep_x in enumerate(e_p):
+    sigma_aux_b, sigma_aux_t = tensao(ep_x, a_c, i_c, w_t, w_c)
+    sigma_b.append(sigma_aux_b)
+    sigma_t.append(sigma_aux_t)
+
+
+#DATAFRAME 
 chart_data = pd.DataFrame({'sigma t': sigma_t,'sigma b': sigma_b, 'm': x})
+
+#CARREGANDO O ARQUIVO EXEL
+def load_data(nrows):
+    data = pd.read_excel('Pasta1.xlsx', nrows=nrows)
+    lowercase = lambda x: str(x).lower()
+    data.rename(lowercase, axis='columns', inplace=True)
+    return data
+
+# Create a text element and let the reader know the data is loading.
+data_load_state = st.text('Loading data...')
+# Load 10,000 rows of data into the dataframe.
+data = load_data(10000)
+# Notify the reader that the data was successfully loaded.
+data_load_state.text('Loading data...done!')
+
+st.subheader('Base de Dados Inicial')
+st.write(data)
+
+
+
+
 
 st.title("GRAFICOS")
 st.subheader("Topo")
