@@ -14,14 +14,17 @@ x, e_p, m_gpp, m_gex, m_q, p_i = carregando_dados()
 # m_q = [1] * 10 # vem do usuário
 # p_i = [1] * 10 # vem do usuário
 
-markdown_text = """
-### Markdown
-Lorem ipsum dolor sit amet. 
-Qui voluptas odio ea blanditiis quae non numquam internos sed Quis repudiandae qui expedita sint. 
-Quo animi consectetur ea officia voluptate et delectus totam cum amet veniam! Non quod incidunt sed rerum vitae ea soluta libero. 
-Sit delectus quibusdam et nulla galisum sed esse assumenda.
+html_text = """
+<h1 style='color: blue;'>Título</h1>
+<h2 style='color: green;'>Cabeçalho</h2>
+<p>Lorem ipsum dolor sit amet. Qui voluptas odio ea blanditiis quae non numquam internos sed Quis repudiandae qui expedita sint.
+Quo animi consectetur ea officia voluptate et delectus totam cum amet veniam! Non quod incidunt sed rerum vitae ea soluta libero.
+Sit delectus quibusdam et nulla galisum sed esse assumenda.</p>
+</a>
 """
-st.markdown(markdown_text)
+
+# Renderizar o texto HTML
+st.markdown(html_text, unsafe_allow_html=True)
 
 ## IMPUTS DO USUÁRIO
 # Lista de tuplas contendo o nome da variável e seu valor padrão
