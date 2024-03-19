@@ -14,6 +14,16 @@ x, e_p, m_gpp, m_gex, m_q, p_i = carregando_dados()
 # m_q = [1] * 10 # vem do usuário
 # p_i = [1] * 10 # vem do usuário
 
+markdown_text = """
+### Markdown
+Lorem ipsum dolor sit amet. 
+Qui voluptas odio ea blanditiis quae non numquam internos sed Quis repudiandae qui expedita sint. 
+Quo animi consectetur ea officia voluptate et delectus totam cum amet veniam! Non quod incidunt sed rerum vitae ea soluta libero. 
+Sit delectus quibusdam et nulla galisum sed esse assumenda.
+"""
+st.markdown(markdown_text)
+
+## IMPUTS DO USUÁRIO
 # Lista de tuplas contendo o nome da variável e seu valor padrão
 variaveis = [("a_c (m2):", 1.00), ("i_c (m4):", 1.00), ("w_t (m3):", 1.00), ("w_b (m3):", 1.00)]
 
@@ -26,6 +36,7 @@ for nome, valor_padrao in variaveis:
     if valor_digitado != "":
         valores[nome[:-1]] = valor_digitado  # Atualiza o valor no dicionário apenas se o usuário digitou algo
 
+st.write(valores)
 # Atribuindo os valores das variáveis
 a_c = valores.get("a_c (m2)", 1)
 i_c = valores.get("i_c (m4)", 1)
@@ -56,18 +67,22 @@ for id, ep_x in enumerate(e_p):
 
 
 #DATAFRAME 
-chart_data = pd.DataFrame({
-                            'sigma t t0': sigma_t_t0,
-                            'sigma b t0': sigma_b_t0, 
-                            'sigma t tinf': sigma_t_tinf,
-                            'sigma b tinf': sigma_b_tinf, 
+chart_data = pd.DataFrame({ 
+                            'e_p': e_p,
                             'm': x, 
-                            'p_i': p_i,
                             'm_gpp': m_gpp,
                             'm_gex': m_gex,
                             'm_q': m_q,
+                            'p_i': p_i,
+                            'sigma t t0': sigma_t_t0,
+                            'sigma b t0': sigma_b_t0, 
+                            'sigma t tinf': sigma_t_tinf,
+                            'sigma b tinf': sigma_b_tinf,
                             })
 chart_data
+
+# Chamando a função para criar o botão de download
+download_excel(chart_data)
 
 #CARREGANDO O ARQUIVO EXEL
 def load_data(nrows):
