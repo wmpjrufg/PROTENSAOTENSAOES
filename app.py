@@ -2,29 +2,42 @@
 import streamlit as st 
 import pandas as pd 
 import numpy as np
-import random
+
+from protendido import *
 
 
-x = [1.98, 3.96, 5.94, 7.92, 9.90, 11.80, 13.86, 15.84, 17.82, 19.8]
-e_p = [0.38] * 10 
-sigma_b = []
-sigma_t = []
+x = [1.98, 3.96, 5.94, 7.92, 9.90, 11.80, 13.86, 15.84, 17.82, 19.8] # vem do usuário
+e_p = [0.38] * 10 # vem do usuário
+m_gpp = [] # vem do usuário
+m_gex = [] # vem do usuário
+m_q = [] # vem do usuário
+p_i = [] # vem do usuário
 
 # Pedindo para o usuário inserir elementos
-a_c = st.number_input("a_c:")
+a_c = st.number_input("a_c (m2):")
+i_c = st.number_input("i_c (m4):")
+w_t = st.number_input("w_t (m3):")
+w_b = st.number_input("w_b (m3):")
 
-i_c = st.number_input("i_c:")
-
-w_t = st.number_input("w_t:")
-
-w_c = st.number_input("w_c:")
-
-tensao = random.uniform(10000, 15000)
-
+# Determinando as tensões no Estado Vazio
+sigma_b_t0 = []
+sigma_t_t0 = []
 for id, ep_x in enumerate(e_p):
-    sigma_aux_b, sigma_aux_t = tensao(ep_x, a_c, i_c, w_t, w_c)
-    sigma_b.append(sigma_aux_b)
-    sigma_t.append(sigma_aux_t)
+    sigma_mg_b, sigma_mg_t = tensao_momento(w_t, w_b, 1, m_gpp[id])
+    sigma_mq_b, sigma_mq_t = tensao_momento(w_t, w_b, 0, m_q[id])
+    sigma_pi_b, sigma_pi_t = tensao_protensao(a_c, w_t, w_b, ep_x, 1, p_i[id])
+    sigma_b_t0.append(sigma_mg_b + sigma_mq_b + sigma_pi_b)
+    sigma_t_t0.append(sigma_mg_t + sigma_mq_t + sigma_pi_t)
+
+# Determinando as tensões no Estado Limite de Serviço
+sigma_b_tinf = []
+sigma_t_tinf = []
+for id, ep_x in enumerate(e_p):
+    sigma_mg_b, sigma_mg_t = tensao_momento(w_t, w_b, 1, m_gpp[id]+m_gex[id])
+    sigma_mq_b, sigma_mq_t = tensao_momento(w_t, w_b, 1, m_q[id])
+    sigma_pi_b, sigma_pi_t = tensao_protensao(a_c, w_t, w_b, ep_x, 1, p_i[id])
+    sigma_b_tinf.append(sigma_mg_b + sigma_mq_b + sigma_pi_b)
+    sigma_t_tinf.append(sigma_mg_t + sigma_mq_t + sigma_pi_t)
 
 
 #DATAFRAME 
