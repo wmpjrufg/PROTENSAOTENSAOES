@@ -19,14 +19,26 @@ def carregando_dados():
     if uploaded_file is not None:
         try:
             data = pd.read_excel(uploaded_file)
-
             expected_columns = ['x (m)', 'e_p (m)', 'm_gpp (kNm)', 'm_gex (kNm)', 'm_q (kNm)', 'p_i (kN)']
-
+            #Verifica se o nome das colunas estão corretos
             if not all(col in data.columns for col in expected_columns):
                 st.error("O arquivo não contém todas as colunas necessárias.")
                 return None, None, None, None, None, None
             
             st.write(data)
+
+            #Verifica se as colunas estão preenchidas
+            missing_values = data.isnull().any()
+            if missing_values.any():
+                st.error("Algumas colunas contêm valores em branco.")
+                return None, None, None, None, None, None
+            
+            # Verificar se todos os valores na tabela são floats
+            if data.applymap(lambda x: isinstance(x, float)).all().all():
+                st.success("Todos os valores na tabela são floats.")
+            else:
+                st.error("Alguns valores na tabela não são floats.")
+                return None, None, None, None, None, None
             
             x = data['x (m)'].tolist()
             e_p = data['e_p (m)'].tolist()
