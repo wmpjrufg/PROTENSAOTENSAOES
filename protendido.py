@@ -2,33 +2,59 @@
 import pandas as pd
 import streamlit as st
 
+
 def carregando_dados():
     """
     Carrega os dados de um arquivo excel
 
-    Args:
-        None
-
     Returns:
         x (List): Lista com valores das coordenadas do eixo x (m)
         e_p (List): Lista com valores da excecentricidade de protensão (m)
+        m_gpp (List): Lista com valores do momento gerado pela protensão (kNm)
+        m_gex (List): Lista com valores do momento gerado pelo peso próprio (kNm)
+        m_q (List): Lista com valores do momento devido à carga variável (kNm)
+        p_i (List): Lista com valores da força interna (kN)
     """
-    data = pd.read_excel('./Pasta1.xlsx')
-    # lowercase = lambda x: str(x).lower()
-    # data.rename(lowercase, axis='columns', inplace=True)
+    uploaded_file = st.file_uploader("Carregar arquivo Excel", type=["xlsx", "xls"])
+    if uploaded_file is not None:
+        try:
+            data = pd.read_excel(uploaded_file)
+            lowercase = lambda x: str(x).lower()
+            data.rename(lowercase, axis='columns', inplace=True)
 
-    x = data['x (m)'].tolist()
-    e_p = data['e_p (m)'].tolist()
-    m_gpp = data['m_gpp (kNm)'].tolist()
-    m_gex = data ['m_gex (kNm)'].tolist()
-    m_q = data['m_q (kNm)'].tolist()
-    p_i = data['p_i (kN)'].tolist()
+            st.write(data)
 
-    return x, e_p, m_gpp, m_gex, m_q, p_i
+            # Verificar se os valores na tabela são floats
+            if all(data[col].apply(lambda x: isinstance(x, float) or isinstance(x, int)) for col in data.columns):
+                x = data['x (m)'].tolist()
+                e_p = data['e_p (m)'].tolist()
+                m_gpp = data['m_gpp (knm)'].tolist()
+                m_gex = data['m_gex (knm)'].tolist()
+                m_q = data['m_q (knm)'].tolist()
+                p_i = data['p_i (kn)'].tolist()
+                return x, e_p, m_gpp, m_gex, m_q, p_i
+            else:
+                st.error("Por favor, verifique se todos os valores na tabela são números.")
+                return None, None, None, None, None, None
+        
+        except:
+                st.error("Por favor, insira um arquivo válido.")
+                return None, None, None, None, None, None
+    else:
+        st.warning("Por favor, faça o upload de um arquivo Excel.")
+        return None, None, None, None, None, None
 
 
-# Criando um botão para fazer o download do DataFrame como um arquivo Excel
 def download_excel(df):
+    """
+    Gera um botão para fazer o download de um DataFrame em formato Excel (.xlsx).
+
+    Args:
+        df (DataFrame): DataFrame contendo os dados a serem baixados.
+
+    Returns:
+        None
+    """
     csv = df.to_csv(index=False).encode('utf-8-sig')
     st.download_button(
         label='Salvar Excel',
