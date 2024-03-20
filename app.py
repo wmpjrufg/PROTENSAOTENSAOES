@@ -46,7 +46,6 @@ i_c = valores.get("i_c (m4)", 1)
 w_t = valores.get("w_t (m3)", 1)
 w_b = valores.get("w_b (m3)", 1)
 
-
 # Determinando as tensões no Estado Vazio
 sigma_b_t0 = []
 sigma_t_t0 = []
@@ -56,7 +55,6 @@ for id, ep_x in enumerate(e_p):
     sigma_pi_b, sigma_pi_t = tensao_protensao(a_c, w_t, w_b, ep_x, 1, p_i[id])
     sigma_b_t0.append(sigma_mg_b + sigma_mq_b + sigma_pi_b)
     sigma_t_t0.append(sigma_mg_t + sigma_mq_t + sigma_pi_t)
-
 
 # Determinando as tensões no Estado Limite de Serviço
 sigma_b_tinf = []
@@ -82,7 +80,6 @@ chart_data = pd.DataFrame({
                             'sigma t tinf': sigma_t_tinf,
                             'sigma b tinf': sigma_b_tinf,
                             })
-chart_data
 
 # Chamando a função para criar o botão de download
 download_excel(chart_data)

@@ -13,17 +13,17 @@ def carregando_dados():
         x (List): Lista com valores das coordenadas do eixo x (m)
         e_p (List): Lista com valores da excecentricidade de protensão (m)
     """
-    data = pd.read_excel('Pasta1.xlsx')
+    data = pd.read_excel('./Pasta1.xlsx')
     # lowercase = lambda x: str(x).lower()
     # data.rename(lowercase, axis='columns', inplace=True)
 
-    x = data['x (m)'].tolist()  
-    e_p = data['e_p (m)'].tolist()  
+    x = data['x (m)'].tolist()
+    e_p = data['e_p (m)'].tolist()
     m_gpp = data['m_gpp (kNm)'].tolist()
     m_gex = data ['m_gex (kNm)'].tolist()
-    m_q = data['m_q (kNm)'].tolist()  
-    p_i = data['p_i (kN)'].tolist()  
-    
+    m_q = data['m_q (kNm)'].tolist()
+    p_i = data['p_i (kN)'].tolist()
+
     return x, e_p, m_gpp, m_gex, m_q, p_i
 
 
@@ -36,7 +36,6 @@ def download_excel(df):
         file_name='teste.xlsx',
         mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     )
-
 
 
 def tensao_momento(w_t, w_b, delta, m_s):
