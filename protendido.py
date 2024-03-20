@@ -2,13 +2,13 @@
 import pandas as pd
 import streamlit as st
 
+
 def carregando_dados():
     """
     Carrega os dados de um arquivo excel
-
     Returns:
         x (List): Lista com valores das coordenadas do eixo x (m)
-        e_p (List): Lista com valores da excecentricidade de protensão (m)
+        e_p (List): Lista com valores da excentricidade de protensão (m)
         m_gpp (List): Lista com valores do momento gerado pela protensão (kNm)
         m_gex (List): Lista com valores do momento gerado pelo peso próprio (kNm)
         m_q (List): Lista com valores do momento devido à carga variável (kNm)
@@ -19,23 +19,27 @@ def carregando_dados():
     if uploaded_file is not None:
         try:
             data = pd.read_excel(uploaded_file)
-            lowercase = lambda x: str(x).lower()
-            data.rename(lowercase, axis='columns', inplace=True)
 
+            expected_columns = ['x (m)', 'e_p (m)', 'm_gpp (kNm)', 'm_gex (kNm)', 'm_q (kNm)', 'p_i (kN)']
+
+            if not all(col in data.columns for col in expected_columns):
+                st.error("O arquivo não contém todas as colunas necessárias.")
+                return None, None, None, None, None, None
+            
             st.write(data)
-
+            
             x = data['x (m)'].tolist()
             e_p = data['e_p (m)'].tolist()
-            m_gpp = data['m_gpp (knm)'].tolist()
-            m_gex = data['m_gex (knm)'].tolist()
-            m_q = data['m_q (knm)'].tolist()
-            p_i = data['p_i (kn)'].tolist()
+            m_gpp = data['m_gpp (kNm)'].tolist()
+            m_gex = data['m_gex (kNm)'].tolist()
+            m_q = data['m_q (kNm)'].tolist()
+            p_i = data['p_i (kN)'].tolist()
         
             return x, e_p, m_gpp, m_gex, m_q, p_i
         
         except:
-                st.error("Por favor, insira um arquivo válido.")
-                return None, None, None, None, None, None
+            st.error("Por favor, insira um arquivo válido.")
+            return None, None, None, None, None, None
     else:
         st.warning("Por favor, faça o upload de um arquivo Excel.")
         return None, None, None, None, None, None
