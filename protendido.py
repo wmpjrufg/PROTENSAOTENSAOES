@@ -2,7 +2,6 @@
 import pandas as pd
 import streamlit as st
 
-
 def carregando_dados():
     """
     Carrega os dados de um arquivo excel
@@ -14,7 +13,6 @@ def carregando_dados():
         m_gex (List): Lista com valores do momento gerado pelo peso próprio (kNm)
         m_q (List): Lista com valores do momento devido à carga variável (kNm)
         p_i (List): Lista com valores da força interna (kN)
-        None
     """
     uploaded_file = st.file_uploader("Carregar arquivo Excel", type=["xlsx", "xls"])
     if uploaded_file is not None:
@@ -105,3 +103,5 @@ def tensao_protensao(a_c, w_t, w_b, e_p, delta, p_s):
     sigma_t_mp = p_0 - p_1 / w_t
 
     return sigma_b_mp, sigma_t_mp
+
+
