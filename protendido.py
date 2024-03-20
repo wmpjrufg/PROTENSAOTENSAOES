@@ -18,9 +18,13 @@ def carregando_dados():
     uploaded_file = st.file_uploader("Carregar arquivo Excel", type=["xlsx", "xls"])
     if uploaded_file is not None:
         try:
-            data = pd.read_excel(uploaded_file)
+            # Ler o arquivo Excel e especificar os tipos de dados das colunas
+            data = pd.read_excel(uploaded_file, dtype={'x (m)': float, 'e_p (m)': float, 
+                                                        'm_gpp (kNm)': float, 'm_gex (kNm)': float, 
+                                                        'm_q (kNm)': float, 'p_i (kN)': float})
+
             expected_columns = ['x (m)', 'e_p (m)', 'm_gpp (kNm)', 'm_gex (kNm)', 'm_q (kNm)', 'p_i (kN)']
-            #Verifica se o nome das colunas estão corretos
+
             if not all(col in data.columns for col in expected_columns):
                 st.error("O arquivo não contém todas as colunas necessárias.")
                 return None, None, None, None, None, None
