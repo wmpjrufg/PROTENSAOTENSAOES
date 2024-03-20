@@ -16,6 +16,7 @@ from protendido import *
 html_text = """
 <h1 style='color: blue;'>Título</h1>
 <h2 style='color: green;'>Cabeçalho</h2>
+<p align="justify">
 <p>Lorem ipsum dolor sit amet. Qui voluptas odio ea blanditiis quae non numquam internos sed Quis repudiandae qui expedita sint.
 Quo animi consectetur ea officia voluptate et delectus totam cum amet veniam! Non quod incidunt sed rerum vitae ea soluta libero.
 Sit delectus quibusdam et nulla galisum sed esse assumenda.</p>

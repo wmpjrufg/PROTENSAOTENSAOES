@@ -14,6 +14,7 @@ def carregando_dados():
         m_gex (List): Lista com valores do momento gerado pelo peso próprio (kNm)
         m_q (List): Lista com valores do momento devido à carga variável (kNm)
         p_i (List): Lista com valores da força interna (kN)
+        None
     """
     uploaded_file = st.file_uploader("Carregar arquivo Excel", type=["xlsx", "xls"])
     if uploaded_file is not None:
@@ -24,18 +25,14 @@ def carregando_dados():
 
             st.write(data)
 
-            # Verificar se os valores na tabela são floats
-            if all(data[col].apply(lambda x: isinstance(x, float) or isinstance(x, int)) for col in data.columns):
-                x = data['x (m)'].tolist()
-                e_p = data['e_p (m)'].tolist()
-                m_gpp = data['m_gpp (knm)'].tolist()
-                m_gex = data['m_gex (knm)'].tolist()
-                m_q = data['m_q (knm)'].tolist()
-                p_i = data['p_i (kn)'].tolist()
-                return x, e_p, m_gpp, m_gex, m_q, p_i
-            else:
-                st.error("Por favor, verifique se todos os valores na tabela são números.")
-                return None, None, None, None, None, None
+            x = data['x (m)'].tolist()
+            e_p = data['e_p (m)'].tolist()
+            m_gpp = data['m_gpp (knm)'].tolist()
+            m_gex = data['m_gex (knm)'].tolist()
+            m_q = data['m_q (knm)'].tolist()
+            p_i = data['p_i (kn)'].tolist()
+        
+            return x, e_p, m_gpp, m_gex, m_q, p_i
         
         except:
                 st.error("Por favor, insira um arquivo válido.")
