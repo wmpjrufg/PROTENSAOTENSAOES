@@ -5,7 +5,11 @@ import streamlit as st
 
 def carregando_dados():
     """
-    Carrega os dados de um arquivo excel
+    Carrega os dados de um arquivo do tipo xlsx.
+
+    Args: 
+        None
+
     Returns:
         x (List): Lista com valores das coordenadas do eixo x (m)
         e_p (List): Lista com valores da excentricidade de protensão (m)
@@ -13,46 +17,48 @@ def carregando_dados():
         m_gex (List): Lista com valores do momento gerado pelo peso próprio (kNm)
         m_q (List): Lista com valores do momento devido à carga variável (kNm)
         p_i (List): Lista com valores da força interna (kN)
-        None
     """
-    uploaded_file = st.file_uploader("Carregar arquivo Excel", type=["xlsx", "xls"])
+    uploaded_file = st.file_uploader("Carregar planilha Excel com os dados", type=["xlsx", "xls"])
     if uploaded_file is not None:
         try:
             # Ler o arquivo Excel e especificar os tipos de dados das colunas
-            data = pd.read_excel(uploaded_file, dtype={'x (m)': float, 'e_p (m)': float, 
-                                                        'm_gpp (kNm)': float, 'm_gex (kNm)': float, 
-                                                        'm_q (kNm)': float, 'p_i (kN)': float})
-
-            expected_columns = ['x (m)', 'e_p (m)', 'm_gpp (kNm)', 'm_gex (kNm)', 'm_q (kNm)', 'p_i (kN)']
+            data = pd.read_excel(uploaded_file, dtype={'x (m)': float,
+                                                        'e_p (m)': float,
+                                                        'm_gpp (kNm)': float,
+                                                        'm_gex (kNm)': float, 
+                                                        'm_q (kNm)': float,
+                                                        'p_i (kN)': float})
+            expected_columns = ['x (m)', 'e_p (m)', 'm_gpp (kNm)', 'm_gex (kNm)',
+                                                        'm_q (kNm)', 'p_i (kN)']
 
             if not all(col in data.columns for col in expected_columns):
                 st.error("O arquivo não contém todas as colunas necessárias.")
                 return None, None, None, None, None, None
-            
             st.write(data)
 
-            #Verifica se as colunas estão preenchidas
+            # Verifica se as colunas estão preenchidas
             missing_values = data.isnull().any()
             if missing_values.any():
                 st.error("Algumas colunas contêm valores em branco.")
                 return None, None, None, None, None, None
-            
+
             # Verificar se todos os valores na tabela são floats
             if data.applymap(lambda x: isinstance(x, float)).all().all():
-                st.success("Todos os valores na tabela são floats.")
+                pass
             else:
                 st.error("Alguns valores na tabela não são floats.")
                 return None, None, None, None, None, None
-            
+
+            # Leitura dos dados
             x = data['x (m)'].tolist()
             e_p = data['e_p (m)'].tolist()
             m_gpp = data['m_gpp (kNm)'].tolist()
             m_gex = data['m_gex (kNm)'].tolist()
             m_q = data['m_q (kNm)'].tolist()
             p_i = data['p_i (kN)'].tolist()
-        
+
             return x, e_p, m_gpp, m_gex, m_q, p_i
-        
+
         except:
             st.error("Por favor, insira um arquivo válido.")
             return None, None, None, None, None, None
@@ -124,5 +130,3 @@ def tensao_protensao(a_c, w_t, w_b, e_p, delta, p_s):
     sigma_t_mp = p_0 - p_1 / w_t
 
     return sigma_b_mp, sigma_t_mp
-
-

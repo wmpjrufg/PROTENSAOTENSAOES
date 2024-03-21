@@ -1,38 +1,25 @@
-"""Aplicativo de verificação de tensões"""
-import streamlit as st 
-import pandas as pd 
+"""Aplicativo de verificação de tensões em peças protendidas"""
+import streamlit as st
+import pandas as pd
 import numpy as np
 
 from protendido import *
 
-
-# x = [1.98, 3.96, 5.94, 7.92, 9.90, 11.80, 13.86, 15.84, 17.82, 19.8] # vem do usuário
-# e_p = [0.38] * 10 # vem do usuário
-# m_gpp = [1] * 10 # vem do usuário
-# m_gex = [1] * 10 # vem do usuário
-# m_q = [1] * 10 # vem do usuário
-# p_i = [1] * 10 # vem do usuário
-
 html_text = """
-<h1 style='color: blue;'>Título</h1>
-<h2 style='color: green;'>Cabeçalho</h2>
+<h1 style='color: blue;'>Verificador de tensões de protensão em peças de concreto protendido</h1>
 <p align="justify">
-<p>Lorem ipsum dolor sit amet. Qui voluptas odio ea blanditiis quae non numquam internos sed Quis repudiandae qui expedita sint.
+Lorem ipsum dolor sit amet. Qui voluptas odio ea blanditiis quae non numquam internos sed Quis repudiandae qui expedita sint.
 Quo animi consectetur ea officia voluptate et delectus totam cum amet veniam! Non quod incidunt sed rerum vitae ea soluta libero.
-Sit delectus quibusdam et nulla galisum sed esse assumenda.</p>
-</a>
+Sit delectus quibusdam et nulla galisum sed esse assumenda.
+</p>
 """
 
-# Renderizar o texto HTML
+# Renderizar o cabeçalho HTML
 st.markdown(html_text, unsafe_allow_html=True)
 
-# CHAMADA DA FUNÇÃO QUE CARREGA O ARQUIVO
-x, e_p, m_gpp, m_gex, m_q, p_i = carregando_dados()
-
-
-#IMPUTS DO USUARIO
-# Lista de tuplas contendo o nome da variável
+# Entrada de dados
 variaveis = [("a_c (m2):"), ("i_c (m4):"), ("w_t (m3):"), ("w_b (m3):")]
+x, e_p, m_gpp, m_gex, m_q, p_i = carregando_dados()
 
 # Dicionário para armazenar os valores das variáveis
 valores = {}
@@ -114,24 +101,3 @@ if None not in [x, e_p, m_gpp, m_gex, m_q, p_i]:
 
             except TypeError:
                 st.error("Por favor, insira valores para todas as variáveis necessárias para calcular as tensões.")
-
-# #CARREGANDO O ARQUIVO EXEL
-# def load_data(nrows):
-#     data = pd.read_excel('Pasta1.xlsx', nrows=nrows)
-#     lowercase = lambda x: str(x).lower()
-#     data.rename(lowercase, axis='columns', inplace=True)
-#     return data
-
-# # Create a text element and let the reader know the data is loading.
-# data_load_state = st.text('Loading data...')
-# # Load 10,000 rows of data into the dataframe.
-# data = load_data(10000)
-# # Notify the reader that the data was successfully loaded.
-# data_load_state.text('Loading data...done!')
-
-# st.subheader('Base de Dados Inicial')
-# st.write(data)
-
-
-
-
